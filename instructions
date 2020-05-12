@@ -1,0 +1,12 @@
+Instructions.
+1. Clone the file contents to your folder
+2. Install MySQL Server( https://dev.mysql.com/downloads/installer/ ) and execute the following commands on MySQL shell.
+    create database ps5_login_info
+    create table accounts( id int(255) primary key auto_increment, name varchar(10), age int(3), location varchar(10), password varchar(10));
+3. On command prompt(run as admin) , install virtual evironment and flask
+4. Navigate to your folder.
+5. Execute the following commands
+   env\Scripts\activate
+   python app.py
+6. Open browser and open the following website
+   http://127.0.0.1:5000/
