@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+PS5: Buy games, shop online, get exclusive features.
+{% endblock %}
+
+{% block main %}
+<div class="jumbotron" >
+    <h1>Buy the new PS5!</h1>
+    <p class="lead">You can access the latest PS5 exclusive games, with discounts and the best price. Here you can buy the new, next generation PS5, and play games in upto 8k resolution. Create your PS5 account by clicking sign up and buy the game by clicking buy now. </p>
+    <p><a href="https://www.amazon.in/Playstation-4/b?ie=UTF8&node=2591138031" target="_blank" class="btn btn-dark btn-lg">Buy now</a></p>
+</div>
+{% if not logged %}
+<div class="jumbotron" >
+    <h1>Create your account.</h1>
+    <p class="lead">In order to access games and latest titles, you need to create your account. </p>
+    <p><a href="/signup" class="btn btn-dark btn-lg">Create</a></p>
+</div>
+{% endif %}
+{% endblock %}
+
+
+
+
