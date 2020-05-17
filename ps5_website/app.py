@@ -5,31 +5,27 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def index_redirect():
-    return redirect('/index/new_user')
+@app.route('/index/')
+def index():
+    name = request.args.get("name")
+    logged = request.args.get("logged")
+    if logged == None:
+        logged = False
+    return render_template('index.html', name=name, logged=logged)
 
 
-@app.route('/index/<name>')
-def index(name):
-    if name != "new_user":
-        return render_template('index.html', name=name, logged=True)
-    return render_template('index.html', name="new_user", logged=False)
-
-
-@app.route('/home/<name>', methods=["GET", "POST"])
-def home(name):
-    if request.method == "POST":
-        name = request.form['name']
-        age = request.form['age']
-        location = request.form['location']
-        password = request.form['password']
-        db = get_db()
-        db.execute("insert into accounts(name,age,location,password) values (? ,?, ?, ?)",
-                   [name, age, location, password])
-        db.commit()
-    if name == "new_user":
-        return render_template('home.html', name="new_user", logged=False)
-    return render_template('home.html', name=name, logged=True)
+@app.route('/home/')
+def home():
+    name = request.args.get("name")
+    logged = request.args.get("logged")
+    db = get_db()
+    cursor = db.execute("select id,name,desc,price,img_key,type from games")
+    data = cursor.fetchall()
+    cursor = db.execute("select id from accounts where name == ?", [name])
+    acc_id = cursor.fetchone()
+    if logged == None:
+        return render_template('home.html', name=name, logged=False, games=data)
+    return render_template('home.html', name=name, logged=True, games=data, acc_id=acc_id[0])
 
 
 @app.route('/signup')
@@ -47,13 +43,35 @@ def processed():
     name = request.form['name']
     password = request.form['password']
     db = get_db()
-    cursor = db.execute("select name,password from accounts")
+    cursor = db.execute("select id,name,password from accounts")
     data = cursor.fetchall()
-
     for row in data:
-        if row[0] == name and row[1] == password:
+        if row[1] == name and row[2] == password:
             return redirect(url_for('home', name=name, logged=True))
     return render_template('signin.html', check=True)
+
+
+@app.route('/new', methods=['POST'])
+def new():
+    name = request.form['name']
+    age = request.form['age']
+    location = request.form['location']
+    password = request.form['password']
+    db = get_db()
+    db.execute("insert into accounts(name,age,location,password) values (? ,?, ?, ?)",
+               [name, age, location, password])
+    db.commit()
+    return redirect(url_for("home", name=name, logged=True))
+
+
+@app.route('/buy/')
+def buy():
+    acc_id = request.args.get("acc_id")
+    game_id = request.args.get("game_id")
+    db = get_db()
+    db.execute("insert into acc_game(acc_id,game_id) values (? ,?)",
+               [acc_id, game_id])
+    db.commit()
 
 
 def connect_db():

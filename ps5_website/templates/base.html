@@ -14,7 +14,7 @@
 <body>
 
 {% block header %}
-<nav class="navbar navbar-light navbar-expand-md" style="background-color: #003791;padding-top:30px;padding-bottom:30px;">
+<nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: #003791;padding-top:30px;padding-bottom:30px;">
 
     <a href="/" class="navbar-brand">
         <img src="{{ url_for('static',filename='ps5_logo.png') }}" height="28" alt="PS5 Logo">
@@ -26,11 +26,11 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav">
             {% if not logged %}
-            <a href="/index/new_user" class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Index</a>
-            <a href="/home/new_user" class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Home</a>
+            <a href="{{ url_for('index') }}" class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Index</a>
+            <a href="{{ url_for('home') }}" class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Games</a>
             {% else %}
-            <a href= " {{ url_for('index',name=name,logged=true) }} " class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Index</a>
-            <a href=" {{ url_for('home',name=name,logged=true) }} " class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Home</a>
+            <a href= " {{ url_for('index',name=name,logged=True) }} " class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Index</a>
+            <a href=" {{ url_for('home',name=name,logged=True) }} " class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Games</a>
             {% endif %}
         </div>
         <div class="navbar-nav ml-auto">
@@ -40,7 +40,7 @@
             {% else %}
             <div class="navbar-nav" style="padding-right:10px;"><img src="{{ url_for('static',filename='account_thumb.png') }}" height="40" alt="Account"></div>
             <div class="nav-item nav-link active" style="padding-right:50px;color:white;">{{ name }}</div>
-              <div class="navbar-nav"><a href="/index/new_user" class="btn btn-outline-light">Log Out</a></div>
+              <div class="navbar-nav"><a href="{{ url_for('index') }}" class="btn btn-outline-light">Log Out</a></div>
             {% endif %}
         </div>
 
@@ -48,7 +48,7 @@
 </nav>
 {% endblock %}
 
-<div id="content" style="padding-top:50px;padding-bottom:10px;padding-left:50px;padding-right:50px;" >{% block main %} {% endblock %}</div>
+<div id="content" style="padding-top:100px;padding-bottom:10px;padding-left:50px;padding-right:50px;" >{% block main %} {% endblock %}</div>
 
 {% block footer %}
 <footer class="footer" style="padding-top:50px;padding-bottom:50px;background-color: #003791;color: white;">

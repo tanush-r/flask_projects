@@ -6,48 +6,47 @@ PS5: Buy games, shop online, get exclusive features.
 
 
 {% block main %}
-<h1 style="padding-left:50px;padding-right:50px;padding-bottom:20px">Games</h1>
+<h1 style="padding-left:50px;padding-right:50px;padding-bottom:50px;font-weight: bold;font-size: 80px;">GAMES</h1>
 
 <div class="card-deck" style="padding-left:70px;padding-right:70px;padding-bottom:200px;">
-    <div class="card">
-        <img src = "{{ url_for( 'static' , filename='game_callofdutywarzone.jpg') }}"  class="card-img-top" alt="Call Of Duty : Warzone">
-        <div class="card-body">
-            <h5 class="card-title">Call Of Duty : Warzone</h5>
-            <p class="card-text">Warzone is a new, massive combat experience with up to 150 players from the world of Call of Duty: Modern Warfare and is free-to-play for everyone.</p>
+    {% for game in games %}
+    <div class="row" style="padding-bottom:30px;">
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-5" style="background: #868e96;">
+            <img src="{{ url_for( 'static' , filename=game.img_key) }}" class="card-img-top h-100" alt=game.name>
         </div>
-        <div class="card-footer">
-            <p>Price: ₹249</p>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h2 class="card-title" style="font-weight:bold;">{{ game.name }}</h2>
+                <p class="card-text">{{ game.desc }}</p>
+            </div>
+
+            <div class="card-footer" style="position:absolute;bottom:0;width:100%;">
+            {% if game.price == 0 %}
+
+                <p>Price: Free
+                {% if logged %}
+                <a href="{{ url_for('buy', acc_id=acc_id, game_id=game.id ) }}" class="btn btn-success btn-sm pull-right"
+                   style="color:white">{{ acc_id }}</a>
+                {% endif %}
+                </p>
+
+            {% else %}
+            <p>Price: {{ game.price }}
+            {% if logged %}
+                <a href="{{ url_for('buy', acc_id=acc_id, game_id=game.id ) }}" class="btn btn-success btn-sm pull-right"
+                   style="color:white">Buy</a>
+                {% endif %}
+            </p>
+            {% endif %}
+            </div>
+
         </div>
+
     </div>
-    <div class="card">
-        <img src="{{ url_for('static',filename='game_fortnite.jpg') }}" class="card-img-top" alt="Fortnite">
-        <div class="card-body">
-            <h5 class="card-title">Fortnite</h5>
-            <p class="card-text">Play Fortnite Battle Royale, the completely free 100-player PvP mode. One giant map, A Battle Bus, Last one standing wins.</p>
-        </div>
-        <div class="card-footer">
-            <p>Price: ₹599</p>
-        </div>
-    </div>
-    <div class="card">
-        <img src="{{ url_for('static',filename='game_minecraft.jpg') }}" class="card-img-top" alt="Minecraft">
-        <div class="card-body">
-            <h5 class="card-title">Minecraft</h5>
-            <p class="card-text">Explore infinite worlds and build everything from the simplest of homes to the grandest of castles. Play in creative mode with unlimited resources</p>
-        </div>
-        <div class="card-footer">
-            <p>Price: ₹1999</p>
-        </div>
-    </div>
-    <div class="card">
-        <img src="{{ url_for('static',filename='game_pubg.jpg') }}" class="card-img-top" alt="PUBG">
-        <div class="card-body">
-            <h5 class="card-title">PUBG</h5>
-            <p class="card-text">PUBG delivers the most intense free-to-play multiplayer action on mobile. Drop in, gear up, and compete. Survive epic 100-player classic battles, payload mode and fast-paced 4v4 team deathmatch and zombie modes.</p>
-        </div>
-        <div class="card-footer">
-            <p>Price: ₹1499</p>
-        </div>
-    </div>
+</div>
+</div>
+    {% endfor %}
 </div>
 {% endblock %}
