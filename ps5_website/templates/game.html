@@ -6,10 +6,20 @@ PS5: Buy games, shop online, get exclusive features.
 
 
 {% block main %}
-<h1 style="padding-left:50px;padding-right:50px;padding-bottom:50px;font-weight: bold;font-size: 80px;">GAMES</h1>
+{% if type == 'old' %}
+{% set head = "CLASSIC GAMES" %}
+{% set body = "With PS5 backwards compatibility support, you can now play your favourite classic games from PS4,PS3 and PS2" %}
+{% else %}
+{% set head = "LATEST GAMES" %}
+{% set body = "With PS5's beast hardware , you can play the latest games with stunning smooth visuals" %}
+{% endif %}
+
+<h1 style="padding-left:50px;padding-right:50px;padding-bottom:50px;font-weight: bold;font-size: 80px;">{{ head }}</h1>
+<h1 style="padding-left:50px;padding-right:50px;padding-bottom:50px;">{{ body }}</h1>
 
 <div class="card-deck" style="padding-left:70px;padding-right:70px;padding-bottom:200px;">
     {% for game in games %}
+    {% if game.type == type %}
     <div class="row" style="padding-bottom:30px;">
 <div class="card">
     <div class="row no-gutters">
@@ -27,15 +37,15 @@ PS5: Buy games, shop online, get exclusive features.
 
                 <p>Price: Free
                 {% if logged %}
-                <a href="{{ url_for('buy', acc_id=acc_id, game_id=game.id ) }}" class="btn btn-success btn-sm pull-right"
-                   style="color:white">{{ acc_id }}</a>
+                <a href="{{ url_for('buy', name=name,acc_id=acc_id, game_id=game.id ) }}" class="btn btn-success btn-sm pull-right"
+                   style="color:white">Buy</a>
                 {% endif %}
                 </p>
 
             {% else %}
             <p>Price: {{ game.price }}
             {% if logged %}
-                <a href="{{ url_for('buy', acc_id=acc_id, game_id=game.id ) }}" class="btn btn-success btn-sm pull-right"
+                <a href="{{ url_for('buy',name=name ,acc_id=acc_id, game_id=game.id ) }}" class="btn btn-success btn-sm pull-right"
                    style="color:white">Buy</a>
                 {% endif %}
             </p>
@@ -47,6 +57,7 @@ PS5: Buy games, shop online, get exclusive features.
     </div>
 </div>
 </div>
+    {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

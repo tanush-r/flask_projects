@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+PS5: Buy games, shop online, get exclusive features.
+{% endblock %}
+
+
+{% block main %}
+<h1 style="padding-left:50px;padding-right:50px;padding-bottom:50px;font-weight: bold;font-size: 80px;">CART</h1>
+
+<div class="card-deck" style="padding-left:70px;padding-right:70px;padding-bottom:200px;">
+    {% for game in games %}
+    <div class="row" style="padding-bottom:30px;">
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-5" style="background: #868e96;">
+            <img src="{{ url_for( 'static' , filename=game[4]) }}" class="card-img-top h-100" alt=game[1]>
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h2 class="card-title" style="font-weight:bold;">{{ game[1] }}</h2>
+                <p class="card-text">{{ game[2] }}</p>
+            </div>
+
+            <div class="card-footer" style="position:absolute;bottom:0;width:100%;">
+            {% if game[3] == 0 %}
+
+                <p>Price: Free</p>
+                {% else %}
+            <p>Price: {{ game[3] }}</p>
+            {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+      {% endfor %}
+</div>
+
+{% endblock %}
+
+

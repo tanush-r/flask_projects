@@ -5,9 +5,11 @@
 <head>
     {% block head %}
   <meta charset="utf-8">
-  <link rel="stylesheet" href="Scripts/styles.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
 </head>
@@ -26,20 +28,34 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav">
             {% if not logged %}
-            <a href="{{ url_for('index') }}" class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Index</a>
-            <a href="{{ url_for('home') }}" class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Games</a>
+            <a href="{{ url_for('index') }}" class="nav-item nav-link" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Index</a>
+            <div class="dropdown">
+            <a href="#" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Games<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ url_for('game',type='old') }}" class="dropdown-item">Classic</a></li>
+                <li><a href="{{ url_for('game',type='new') }}" class="dropdown-item">New</a></li>
+            </ul>
+            </div>
             {% else %}
             <a href= " {{ url_for('index',name=name,logged=True) }} " class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Index</a>
-            <a href=" {{ url_for('home',name=name,logged=True) }} " class="nav-item nav-link active" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Games</a>
+            <div class="dropdown">
+            <a href="{{ url_for('game',name=name,logged=True) }}" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" style="color:white;font-weight:bold;font-size:25px;padding-left:20px;">Games<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ url_for('game',type='old',name=name,logged=logged) }}" class="dropdown-item">Classic</a></li>
+                <li><a href="{{ url_for('game',type='new',name=name,logged=logged) }}" class="dropdown-item">New</a></li>
+            </ul>
+            </div>
             {% endif %}
         </div>
         <div class="navbar-nav ml-auto">
+
             {% if not logged %}
             <div class="navbar-nav" style="padding-right:10px;"><a href="/signin" class="btn btn-outline-light">Sign in</a></div>
               <div class="navbar-nav"><a href="/signup" class="btn btn-outline-light">Sign up</a></div>
             {% else %}
+            <div class="navbar-nav" style="padding-right:30px;"><a href="{{ url_for('cart',name=name) }}"><img src="{{ url_for('static',filename='shopping_cart.ico') }}" height="40" alt="Account"></a></div>
             <div class="navbar-nav" style="padding-right:10px;"><img src="{{ url_for('static',filename='account_thumb.png') }}" height="40" alt="Account"></div>
-            <div class="nav-item nav-link active" style="padding-right:50px;color:white;">{{ name }}</div>
+            <div class="nav-item nav-link" style="padding-right:50px;color:white;">{{ name }}</div>
               <div class="navbar-nav"><a href="{{ url_for('index') }}" class="btn btn-outline-light">Log Out</a></div>
             {% endif %}
         </div>

@@ -14,18 +14,19 @@ def index():
     return render_template('index.html', name=name, logged=logged)
 
 
-@app.route('/home/')
-def home():
+@app.route('/game/')
+def game():
     name = request.args.get("name")
     logged = request.args.get("logged")
+    type = request.args.get("type")
     db = get_db()
     cursor = db.execute("select id,name,desc,price,img_key,type from games")
     data = cursor.fetchall()
     cursor = db.execute("select id from accounts where name == ?", [name])
     acc_id = cursor.fetchone()
     if logged == None:
-        return render_template('home.html', name=name, logged=False, games=data)
-    return render_template('home.html', name=name, logged=True, games=data, acc_id=acc_id[0])
+        return render_template('game.html', name=name, logged=False, games=data,type=type)
+    return render_template('game.html', name=name, logged=True, games=data, acc_id=acc_id[0] ,type=type)
 
 
 @app.route('/signup')
@@ -47,7 +48,7 @@ def processed():
     data = cursor.fetchall()
     for row in data:
         if row[1] == name and row[2] == password:
-            return redirect(url_for('home', name=name, logged=True))
+            return redirect(url_for('game', name=name, logged=True,type="new"))
     return render_template('signin.html', check=True)
 
 
@@ -61,17 +62,40 @@ def new():
     db.execute("insert into accounts(name,age,location,password) values (? ,?, ?, ?)",
                [name, age, location, password])
     db.commit()
-    return redirect(url_for("home", name=name, logged=True))
+    return redirect(url_for("game", name=name, logged=True,type="new"))
 
 
 @app.route('/buy/')
 def buy():
+    name = request.args.get("name")
     acc_id = request.args.get("acc_id")
     game_id = request.args.get("game_id")
     db = get_db()
     db.execute("insert into acc_game(acc_id,game_id) values (? ,?)",
                [acc_id, game_id])
     db.commit()
+    return redirect(url_for('cart',name=name))
+
+
+@app.route('/cart/')
+def cart():
+    name = request.args.get("name")
+    db = get_db()
+    cursor = db.execute("select id from accounts where name == ?", [name])
+    id = cursor.fetchone()
+    cursor = db.execute("select acc_id,game_id from acc_game")
+    acc_game = cursor.fetchall()
+    cursor = db.execute("select id,name,desc,price,img_key,type from games")
+    games = cursor.fetchall()
+    games_cart = []
+    for row in acc_game:
+        if row[0] == id[0]:
+            for game in games:
+                if game[0] == row[1]:
+                    games_cart.append(game)
+    return render_template('cart.html', name=name, logged=True, games=games_cart)
+
+
 
 
 def connect_db():
