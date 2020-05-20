@@ -24,9 +24,15 @@ def game():
     data = cursor.fetchall()
     cursor = db.execute("select id from accounts where name == ?", [name])
     acc_id = cursor.fetchone()
+    cursor = db.execute("select acc_id,game_id from acc_game")
+    acc_game = cursor.fetchall()
+    cart_game=[]
     if logged == None:
-        return render_template('game.html', name=name, logged=False, games=data,type=type)
-    return render_template('game.html', name=name, logged=True, games=data, acc_id=acc_id[0] ,type=type)
+        return render_template('game.html', name=name, logged=False, games=data,type=type,cart=[])
+    for g in acc_game:
+        if g[0] == acc_id[0]:
+            cart_game.append(g[1])
+    return render_template('game.html', name=name, logged=True, games=data, acc_id=acc_id[0] ,type=type,cart=cart_game)
 
 
 @app.route('/signup')
@@ -93,7 +99,10 @@ def cart():
             for game in games:
                 if game[0] == row[1]:
                     games_cart.append(game)
-    return render_template('cart.html', name=name, logged=True, games=games_cart)
+    total = 0
+    for g in games_cart:
+        total += g[3]
+    return render_template('cart.html', name=name, logged=True, games=games_cart,total = total)
 
 
 

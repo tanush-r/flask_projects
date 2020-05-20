@@ -6,8 +6,8 @@ PS5: Buy games, shop online, get exclusive features.
 
 
 {% block main %}
-<h1 style="padding-left:50px;padding-right:50px;padding-bottom:50px;font-weight: bold;font-size: 80px;">CART</h1>
-
+<h1 style="padding-left:50px;padding-right:50px;font-weight: bold;font-size: 80px;">CART</h1>
+<h2 style="padding-left:50px;padding-bottom:50px;">Total : ₹{{ total }}</h2>
 <div class="card-deck" style="padding-left:70px;padding-right:70px;padding-bottom:200px;">
     {% for game in games %}
     <div class="row" style="padding-bottom:30px;">
@@ -27,7 +27,7 @@ PS5: Buy games, shop online, get exclusive features.
 
                 <p>Price: Free</p>
                 {% else %}
-            <p>Price: {{ game[3] }}</p>
+            <p>Price: ₹{{ game[3] }}</p>
             {% endif %}
             </div>
 
@@ -38,7 +38,6 @@ PS5: Buy games, shop online, get exclusive features.
 </div>
       {% endfor %}
 </div>
-
 {% endblock %}
 
 

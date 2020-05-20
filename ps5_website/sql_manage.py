@@ -19,3 +19,4 @@ games = [
 ]
 c.executemany('INSERT INTO games(name,desc,price,img_key,type) VALUES (?,?,?,?,?)', games)
 conn.commit()
+a
