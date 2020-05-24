@@ -1,63 +1,13 @@
 {% extends 'base.html' %}
-<!--{{ super() }}-->
 
 {% block title %}
 PS5: Buy games, shop online, get exclusive features.
 {% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+
+
 {% block main %}
-<!--<div class="jumbotron" >
-    <h1>Buy the new PS5!</h1>
-    <p class="lead">You can access the latest PS5 exclusive games, with discounts and the best price. Here you can buy the new, next generation PS5, and play games in upto 8k resolution. Create your PS5 account by clicking sign up and buy the game by clicking buy now. </p>
-    <p><a href="https://www.amazon.in/Playstation-4/b?ie=UTF8&node=2591138031" target="_blank" class="btn btn-dark btn-lg">Buy now</a></p>
-</div>
-{% if not logged %}
-<div class="jumbotron" >
-    <h1>Create your account.</h1>
-    <p class="lead">In order to access games and latest titles, you need to create your account. </p>
-    <p><a href="/signup" class="btn btn-dark btn-lg">Create</a></p>
-</div>
-{% endif %}
-<div id="myCarousel" class="carousel slide" data-ride="carousel" style="padding-bottom:100px;">
 
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-  </ol>
-
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="{{ url_for( 'static' , filename='ps5_console.jpg') }}" alt="PS5">
-      <div class="carousel-caption">
-        <h1 style="font-weight:bold;">Buy the new PS5!</h1>
-        <h3>You can access the latest PS5 exclusive games, with discounts and the best price.</h3>
-      </div>
-    </div>
-
-    <div class="carousel-item" >
-      <img src="{{ url_for( 'static' , filename='old_console.jpg') }}" alt="PS2">
-      <div class="carousel-caption">
-        <h1 style="font-weight:bold;">PS4, PS3, PS2</h1>
-        <h3>Be a true old school gamer and get prev-gen consoles, for a discounted price.</h3>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <img src="{{ url_for( 'static' , filename='new_account.jpg') }}" alt="PS Account">
-      <div class="carousel-caption">
-        <h1 style="font-weight:bold;">Create your account.</h1>
-        <h3>In order to access games and latest titles, you need to create your account.</h3>
-      </div>
-    </div>
-  </div>
-
-  <a class="carousel-control-prev" href="#ps2" data-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </a>
-  <a class="carousel-control-next" href="#acc" data-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </a>
-</div> -->
 <!--Carousel Wrapper-->
 <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel" style="padding-bottom:100px;">
   <!--Indicators-->
@@ -71,7 +21,7 @@ PS5: Buy games, shop online, get exclusive features.
   <div class="carousel-inner" role="listbox">
     <div class="carousel-item active">
       <div class="view">
-        <img class="d-block w-100" src="{{ url_for( 'static' , filename='ps5_console.jpg') }}"
+        <img class="d-block w-100" src="{{ url_for( 'static' , filename='index/ps5_console.jpg') }}"
           alt="First slide">
         <div class="mask rgba-black-light"></div>
       </div>
@@ -83,9 +33,9 @@ PS5: Buy games, shop online, get exclusive features.
     <div class="carousel-item">
       <!--Mask color-->
       <div class="view">
-        <img class="d-block w-100" src="{{ url_for( 'static' , filename='old_console.jpg') }}"
+        <img class="d-block w-100" src="{{ url_for( 'static' , filename='index/old_console.jpg') }}"
           alt="Second slide">
-        <div class="mask rgba-black-strong"></div>
+        <div class="mask rgba-black-light"></div>
       </div>
       <div class="carousel-caption" style="color:black;">
         <h1 class="h1-responsive">PS4, PS3, PS2</h1>
@@ -95,9 +45,9 @@ PS5: Buy games, shop online, get exclusive features.
     <div class="carousel-item">
       <!--Mask color-->
       <div class="view">
-        <img class="d-block w-100" src="{{ url_for( 'static' , filename='new_account.jpg') }}"
+        <img class="d-block w-100" src="{{ url_for( 'static' , filename='index/new_account.jpg') }}"
           alt="Third slide">
-        <div class="mask rgba-black-slight"></div>
+        <div class="mask rgba-black-light"></div>
       </div>
       <div class="carousel-caption">
         <h1 class="h1-responsive">Create your account.</h1>

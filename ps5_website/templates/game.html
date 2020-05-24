@@ -21,14 +21,16 @@ PS5: Buy games, shop online, get exclusive features.
     {% for game in games %}
     {% if game.type == type %}
     {% if game.id not in cart %}
+
     <div class="row" style="padding-bottom:30px;">
-<div class="card">
+<div class="card game"  id = "game">
     <div class="row no-gutters">
         <div class="col-md-5" style="background: #868e96;.hover:{border-color:green;}">
+            {% set gameloc = ['games/',game.img_key]|join('') %}
             {% if logged %}
-            <a href="{{ url_for('buy', name=name,acc_id=acc_id, game_id=game.id ) }}"><img src="{{ url_for( 'static' , filename=game.img_key) }}" class="card-img-top h-100" alt=game.name></a>
+            <a href="{{ url_for('buy', name=name,acc_id=acc_id, game_id=game.id ) }}" data-toggle="tooltip" title="Add to cart" ><img src="{{ url_for( 'static' , filename=gameloc) }}" class="card-img-top h-100" alt=game.name></a>
             {% else %}
-            <img src="{{ url_for( 'static' , filename=game.img_key) }}" class="card-img-top h-100" alt=game.name>
+            <img src="{{ url_for( 'static' , filename=gameloc) }}" class="card-img-top h-100" alt=game.name>
             {% endif %}
 
         </div>

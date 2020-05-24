@@ -6,15 +6,18 @@ PS5: Buy games, shop online, get exclusive features.
 
 
 {% block main %}
+{% set count = namespace(value=0) %}
 <h1 style="padding-left:50px;padding-right:50px;font-weight: bold;font-size: 80px;">CART</h1>
-<h2 style="padding-left:50px;padding-bottom:50px;">Total : ₹{{ total }}</h2>
+<!--<h2 style="padding-left:50px;padding-bottom:50px;">Total : ₹{{ total }}</h2>-->
 <div class="card-deck" style="padding-left:70px;padding-right:70px;padding-bottom:200px;">
     {% for game in games %}
+    {% set count.value = count.value + 1 %}
+    {% set gameloc = ['games/',game[4]]|join('') %}
     <div class="row" style="padding-bottom:30px;">
-<div class="card">
+<div class="card cart" id = "cart">
     <div class="row no-gutters">
         <div class="col-md-5" style="background: #868e96;">
-            <img src="{{ url_for( 'static' , filename=game[4]) }}" class="card-img-top h-100" alt=game[1]>
+            <a href="{{ url_for('delete',name=name,acc_id=acc_id,game_id=game[0]) }}" data-toggle="tooltip" title="Remove from cart"><img src="{{ url_for( 'static' , filename=gameloc) }}" class="card-img-top h-100" alt=game[1]></a>
         </div>
         <div class="col-md-7">
             <div class="card-body">
@@ -38,6 +41,16 @@ PS5: Buy games, shop online, get exclusive features.
 </div>
       {% endfor %}
 </div>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom">
+    <!-- Navbar content -->
+    <div class="container-fluid">
+        <ul class="nav navbar-nav" style="color:white;">
+            <li class="nav-item"><h3>Items : {{ count.value }}</h3></li>
+            <li class="nav-item" style="padding-left:15px;"><h3>Total : ₹{{ total }}</h3></li>
+        </ul>
+    </div>
+</nav>
+
 {% endblock %}
 
 

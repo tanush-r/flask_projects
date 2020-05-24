@@ -26,13 +26,13 @@ def game():
     acc_id = cursor.fetchone()
     cursor = db.execute("select acc_id,game_id from acc_game")
     acc_game = cursor.fetchall()
-    cart_game=[]
+    cart_game = []
     if logged == None:
-        return render_template('game.html', name=name, logged=False, games=data,type=type,cart=[])
+        return render_template('game.html', name=name, logged=False, games=data, type=type, cart=[])
     for g in acc_game:
         if g[0] == acc_id[0]:
             cart_game.append(g[1])
-    return render_template('game.html', name=name, logged=True, games=data, acc_id=acc_id[0] ,type=type,cart=cart_game)
+    return render_template('game.html', name=name, logged=True, games=data, acc_id=acc_id[0], type=type, cart=cart_game)
 
 
 @app.route('/signup')
@@ -54,7 +54,7 @@ def processed():
     data = cursor.fetchall()
     for row in data:
         if row[1] == name and row[2] == password:
-            return redirect(url_for('game', name=name, logged=True,type="new"))
+            return redirect(url_for('game', name=name, logged=True, type="new"))
     return render_template('signin.html', check=True)
 
 
@@ -68,7 +68,7 @@ def new():
     db.execute("insert into accounts(name,age,location,password) values (? ,?, ?, ?)",
                [name, age, location, password])
     db.commit()
-    return redirect(url_for("game", name=name, logged=True,type="new"))
+    return redirect(url_for("game", name=name, logged=True, type="new"))
 
 
 @app.route('/buy/')
@@ -80,7 +80,27 @@ def buy():
     db.execute("insert into acc_game(acc_id,game_id) values (? ,?)",
                [acc_id, game_id])
     db.commit()
-    return redirect(url_for('cart',name=name))
+    return redirect(url_for('cart', name=name))
+
+
+@app.route('/delete/')
+def delete():
+    name = request.args.get("name")
+    acc_id = request.args.get("acc_id")
+    game_id = request.args.get("game_id")
+    print(type(acc_id),game_id,name)
+    db = get_db()
+    cur = db.execute("select * from acc_game")
+    i = cur.fetchall()
+    db.execute("delete from acc_game where acc_id == ? and game_id == ?",[acc_id, game_id])
+    db.commit()
+    cur = db.execute("select * from acc_game")
+    j = cur.fetchall()
+
+
+    if i == j:
+        return "fail"
+    return redirect(url_for('cart', name=name))
 
 
 @app.route('/cart/')
@@ -102,9 +122,7 @@ def cart():
     total = 0
     for g in games_cart:
         total += g[3]
-    return render_template('cart.html', name=name, logged=True, games=games_cart,total = total)
-
-
+    return render_template('cart.html', name=name, logged=True, games=games_cart, total=total, acc_id=id[0])
 
 
 def connect_db():
